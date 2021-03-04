@@ -12,7 +12,7 @@ class MeuAplicativo extends StatelessWidget {
       title: 'Brasileirão',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.deepPurple,
           visualDensity: VisualDensity.adaptivePlatformDensity),
       home: HomePage(),
     );
