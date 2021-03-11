@@ -1,49 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aula1/repositories/times_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:get/get.dart';
-import '../models/time.dart';
+import 'package:provider/provider.dart';
+
+import '../repositories/times_repository.dart';
 import '../models/titulo.dart';
 
-class AddTituloPage extends StatefulWidget {
-  Time time;
-
-  AddTituloPage({Key key, this.time}) : super(key: key);
+class EditTituloPage extends StatefulWidget {
+  Titulo titulo;
+  EditTituloPage({Key key, this.titulo}) : super(key: key);
 
   @override
-  _AddTituloPageState createState() => _AddTituloPageState();
+  _EditTituloPageState createState() => _EditTituloPageState();
 }
 
-class _AddTituloPageState extends State<AddTituloPage> {
+class _EditTituloPageState extends State<EditTituloPage> {
   final _campeonato = TextEditingController();
   final _ano = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  save() {
-    Provider.of<TimesRepository>(context, listen: false).addTitulo(
-      time: widget.time,
-      titulo: Titulo(
-        ano: _ano.text,
-        campeonato: _campeonato.text,
-      ),
+  @override
+  void initState() {
+    super.initState();
+    _ano.text = widget.titulo.ano;
+    _campeonato.text = widget.titulo.campeonato;
+  }
+
+  editar() {
+    Provider.of<TimesRepository>(context, listen: false).editTitulo(
+      titulo: widget.titulo,
+      campeonato: _campeonato.text,
+      ano: _ano.text,
     );
 
     Get.back();
-
-    Get.snackbar(
-      'Sucesso!',
-      'Titulo cadastrado!',
-      backgroundColor: Colors.grey[900],
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adicionar Titulo'),
+        title: Text('Editar Tiulo'),
+        backgroundColor: Colors.grey[800],
+        actions: [IconButton(icon: Icon(Icons.check), onPressed: editar)],
       ),
       body: Form(
         key: _formKey,
@@ -83,28 +81,6 @@ class _AddTituloPageState extends State<AddTituloPage> {
                 },
               ),
             ),
-            Expanded(
-                child: Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.all(24.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    save();
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check),
-                    Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('Salvar', style: TextStyle(fontSize: 20)),
-                    )
-                  ],
-                ),
-              ),
-            ))
           ],
         ),
       ),
