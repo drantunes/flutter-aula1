@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aula1/database/db.dart';
 import '../models/time.dart';
 import '../models/titulo.dart';
 
@@ -9,19 +10,34 @@ class TimesRepository extends ChangeNotifier {
 
   UnmodifiableListView<Time> get times => UnmodifiableListView(_times);
 
-  void addTitulo({Time time, Titulo titulo}) {
+  void addTitulo({Time time, Titulo titulo}) async {
+    var db = await DB.get();
+    int id = await db.insert('titulos', {
+      'campeonato': titulo.campeonato,
+      'ano': titulo.ano,
+      'time_id': time.id
+    });
+    titulo.id = id;
     time.titulos.add(titulo);
     notifyListeners();
   }
 
-  void editTitulo({Titulo titulo, String ano, String campeonato}) {
+  void editTitulo({Titulo titulo, String ano, String campeonato}) async {
+    var db = await DB.get();
+    await db.update(
+      'titulos',
+      {'campeonato': campeonato, 'ano': ano},
+      where: 'id = ?',
+      whereArgs: [titulo.id],
+    );
+
     titulo.campeonato = campeonato;
     titulo.ano = ano;
     notifyListeners();
   }
 
-  TimesRepository() {
-    _times.addAll([
+  static setupTimes() {
+    return [
       Time(
         nome: 'Flamengo',
         pontos: 71,
@@ -154,6 +170,44 @@ class TimesRepository extends ChangeNotifier {
         brasao: 'https://logodetimes.com/times/botafogo/logo-botafogo-256.png',
         cor: Colors.grey[800],
       ),
-    ]);
+    ];
+  }
+
+  TimesRepository() {
+    initRepository();
+  }
+
+  initRepository() async {
+    var db = await DB.get(); // explicar que aqui irá iniciar o DB
+
+    List ts = await db.query('times');
+    //Equivalente a db.rawQuery('SELECT * FROM times');
+
+    for (var t in ts) {
+      var time = Time(
+          id: t['id'],
+          nome: t['nome'],
+          brasao: t['brasao'],
+          pontos: t['pontos'],
+          cor: Color(int.parse(t['cor'])),
+          titulos: await getTitulos(t['id']));
+      _times.add(time);
+    }
+    notifyListeners();
+  }
+
+  getTitulos(timeId) async {
+    var db = await DB.get();
+    var results =
+        await db.query('titulos', where: 'time_id = ?', whereArgs: [timeId]);
+    List<Titulo> titulos = [];
+    for (var titulo in results) {
+      titulos.add(Titulo(
+        id: titulo['id'],
+        campeonato: titulo['campeonato'],
+        ano: titulo['ano'],
+      ));
+    }
+    return titulos;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aula1/controllers/theme_controller.dart';
 import 'package:flutter_aula1/pages/time_page.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
 import 'package:flutter_aula1/widgets/brasao.dart';
@@ -12,16 +13,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var controller = ThemeController.to;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Brasileirão'),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: ListTile(
+                  leading: Obx(() => controller.isDark.value
+                      ? Icon(Icons.brightness_7)
+                      : Icon(Icons.brightness_2)),
+                  title: Obx(() =>
+                      controller.isDark.value ? Text('Light') : Text('Dark')),
+                  onTap: () => controller.changeTheme(),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Consumer<TimesRepository>(builder: (context, repositorio, child) {
         return ListView.separated(
           itemCount: repositorio.times.length,
           itemBuilder: (BuildContext contexto, int time) {
+            print(repositorio.times.length);
             final List<Time> tabela = repositorio.times;
             return ListTile(
               leading: Brasao(
