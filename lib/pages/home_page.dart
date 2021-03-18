@@ -4,7 +4,6 @@ import 'package:flutter_aula1/repositories/times_repository.dart';
 import 'package:flutter_aula1/widgets/brasao.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
-import 'home_controller.dart';
 import '../models/time.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,14 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = HomeController();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
