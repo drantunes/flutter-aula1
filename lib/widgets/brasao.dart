@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class Brasao extends StatelessWidget {
@@ -11,8 +12,8 @@ class Brasao extends StatelessWidget {
       width: width,
       child: Hero(
         tag: image,
-        child: Image.network(
-          image,
+        child: Image(
+          image: CachedNetworkImageProvider(image),
           fit: BoxFit.contain,
         ),
       ),
