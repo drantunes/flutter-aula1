@@ -5,11 +5,10 @@ import 'package:flutter_aula1/widgets/brasao.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import '../models/time.dart';
-import '../models/titulo.dart';
 import './add_titulo_page.dart';
 
 class TimePage extends StatefulWidget {
-  Time time;
+  final Time time;
   TimePage({Key key, this.time}) : super(key: key);
 
   @override

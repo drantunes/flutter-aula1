@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aula1/config.dart';
 import 'package:flutter_aula1/controllers/theme_controller.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'pages/home_page.dart';
 
-void main() {
-  Get.lazyPut<ThemeController>(() => ThemeController());
+void main() async {
+  await initConfigurations();
 
   runApp(ChangeNotifierProvider(
     create: (context) => TimesRepository(),

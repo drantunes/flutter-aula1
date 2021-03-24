@@ -6,7 +6,7 @@ import '../models/time.dart';
 import '../models/titulo.dart';
 
 class AddTituloPage extends StatefulWidget {
-  Time time;
+  final Time time;
 
   AddTituloPage({Key key, this.time}) : super(key: key);
 

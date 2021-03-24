@@ -6,7 +6,7 @@ import '../repositories/times_repository.dart';
 import '../models/titulo.dart';
 
 class EditTituloPage extends StatefulWidget {
-  Titulo titulo;
+  final Titulo titulo;
   EditTituloPage({Key key, this.titulo}) : super(key: key);
 
   @override
