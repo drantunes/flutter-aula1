@@ -4,7 +4,7 @@ import 'package:flutter_aula1/controllers/theme_controller.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
-import 'pages/home_page.dart';
+import 'widgets/checkauth.dart';
 
 void main() async {
   await initConfigurations();
@@ -42,7 +42,7 @@ class MeuAplicativo extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: HomePage(),
+      home: CheckAuth(),
     );
   }
 }
