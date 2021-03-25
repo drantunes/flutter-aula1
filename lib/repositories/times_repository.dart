@@ -1,7 +1,9 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aula1/database/db.dart';
+import 'package:flutter_aula1/database/db_firestore.dart';
 import '../models/time.dart';
 import '../models/titulo.dart';
 
@@ -11,25 +13,40 @@ class TimesRepository extends ChangeNotifier {
   UnmodifiableListView<Time> get times => UnmodifiableListView(_times);
 
   void addTitulo({Time time, Titulo titulo}) async {
-    var db = await DB.get();
-    int id = await db.insert('titulos', {
+    // var db = await DB.get();
+    // int id = await db.insert('titulos', {
+    //   'campeonato': titulo.campeonato,
+    //   'ano': titulo.ano,
+    //   'time_id': time.id
+    // });
+    // titulo.id = id;
+
+    FirebaseFirestore db = await DBFirestore.get();
+    var docRef = await db.collection('titulos').add({
       'campeonato': titulo.campeonato,
       'ano': titulo.ano,
       'time_id': time.id
     });
-    titulo.id = id;
+    titulo.id = docRef.id;
+
     time.titulos.add(titulo);
     notifyListeners();
   }
 
   void editTitulo({Titulo titulo, String ano, String campeonato}) async {
-    var db = await DB.get();
-    await db.update(
-      'titulos',
-      {'campeonato': campeonato, 'ano': ano},
-      where: 'id = ?',
-      whereArgs: [titulo.id],
-    );
+    // var db = await DB.get();
+    // await db.update(
+    //   'titulos',
+    //   {'campeonato': campeonato, 'ano': ano},
+    //   where: 'id = ?',
+    //   whereArgs: [titulo.id],
+    // );
+
+    FirebaseFirestore db = await DBFirestore.get();
+    await db.collection('titulos').doc(titulo.id).update({
+      'campeonato': campeonato,
+      'ano': ano,
+    });
 
     titulo.campeonato = campeonato;
     titulo.ano = ano;
@@ -197,17 +214,33 @@ class TimesRepository extends ChangeNotifier {
   }
 
   getTitulos(timeId) async {
-    var db = await DB.get();
-    var results =
-        await db.query('titulos', where: 'time_id = ?', whereArgs: [timeId]);
+    // var db = await DB.get();
+    // var results =
+    //     await db.query('titulos', where: 'time_id = ?', whereArgs: [timeId]);
+    // List<Titulo> titulos = [];
+    // for (var titulo in results) {
+    //   titulos.add(Titulo(
+    //     id: titulo['id'],
+    //     campeonato: titulo['campeonato'],
+    //     ano: titulo['ano'],
+    //   ));
+    // }
+
+    FirebaseFirestore db = await DBFirestore.get();
+    var snapshot = await db
+        .collection('titulos')
+        .where('time_id', isEqualTo: timeId)
+        .get();
     List<Titulo> titulos = [];
-    for (var titulo in results) {
+    snapshot.docs.forEach((doc) {
+      final data = doc.data();
       titulos.add(Titulo(
-        id: titulo['id'],
-        campeonato: titulo['campeonato'],
-        ano: titulo['ano'],
+        id: doc.id,
+        campeonato: data['campeonato'],
+        ano: data['ano'],
       ));
-    }
+    });
+
     return titulos;
   }
 }

@@ -1,5 +1,5 @@
 class Titulo {
-  int id;
+  String id;
   String campeonato;
   String ano;
 

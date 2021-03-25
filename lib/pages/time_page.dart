@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aula1/pages/edit_titulo_page.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
+import 'package:flutter_aula1/services/auth_service.dart';
 import 'package:flutter_aula1/widgets/brasao.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class _TimePageState extends State<TimePage> {
               Text(
                 'Pontos: ${widget.time.pontos}',
                 style: TextStyle(fontSize: 22),
-              )
+              ),
             ],
           ),
           titulos()

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aula1/controllers/theme_controller.dart';
 import 'package:flutter_aula1/pages/time_page.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
+import 'package:flutter_aula1/services/auth_service.dart';
 import 'package:flutter_aula1/widgets/brasao.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,15 @@ class _HomePageState extends State<HomePage> {
                   onTap: () => controller.changeTheme(),
                 ),
               ),
+              PopupMenuItem(
+                  child: ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sair'),
+                onTap: () {
+                  Navigator.pop(context);
+                  AuthService.to.logout();
+                },
+              )),
             ],
           ),
         ],
