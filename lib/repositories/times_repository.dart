@@ -232,7 +232,7 @@ class TimesRepository extends ChangeNotifier {
     var response = await http.get(
       'https://api.api-futebol.com.br/v1/campeonatos/10/fases/55',
       options: Options(headers: {
-        'Authorization': 'Bearer live_48465c36f634da7be9d75067b2eb27'
+        'Authorization': 'Bearer live_xyz'
       }),
     );
 
@@ -241,7 +241,7 @@ class TimesRepository extends ChangeNotifier {
     //   Uri.parse('https://api.api-futebol.com.br/v1/campeonatos/10/fases/55'),
     //   headers: {
     //     HttpHeaders.authorizationHeader:
-    //         "Bearer live_48465c36f634da7be9d75067b2eb27"
+    //         "Bearer live_xyz"
     //   },
     // );
 
