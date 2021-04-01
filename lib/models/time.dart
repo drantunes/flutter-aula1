@@ -8,7 +8,16 @@ class Time {
   String brasao;
   int pontos;
   Color cor;
+  int idAPI;
   List<Titulo> titulos = [];
 
-  Time({this.id, this.brasao, this.nome, this.pontos, this.cor, this.titulos});
+  Time({
+    this.id,
+    this.brasao,
+    this.nome,
+    this.pontos,
+    this.cor,
+    this.titulos,
+    this.idAPI,
+  });
 }
