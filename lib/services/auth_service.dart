@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 
 class AuthService extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  Rx<User> _firebaseUser = Rx<User>();
+  Rx<User> _firebaseUser;
   var userIsAuthenticated = false.obs;
 
   @override
   void onInit() {
     super.onInit();
 
+    _firebaseUser = Rx<User>(_auth.currentUser);
     _firebaseUser.bindStream(_auth.authStateChanges());
 
     ever(_firebaseUser, (User user) {
