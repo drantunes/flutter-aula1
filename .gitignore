@@ -14,6 +14,7 @@
 *.ipr
 *.iws
 .idea/
+.vscode/launch.json
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -31,6 +32,13 @@
 .pub/
 /build/
 ios/build
+macos/build
+GoogleService-Info.plist
+google-services.json
+
+*.lock
+pubspec.lock
+
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -40,3 +48,4 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+macos/Runner/GoogleService-Info.plist
