@@ -50,3 +50,4 @@ app.*.symbols
 app.*.map.json
 macos/Runner/GoogleService-Info.plist
 functions/node_modules
+functions/package-lock.json

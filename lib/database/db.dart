@@ -19,7 +19,7 @@ class DB {
 
   initDatabase() async {
     return await openDatabase(
-      join(await getDatabasesPath(), 'dadostimes_api1.db'),
+      join(await getDatabasesPath(), 'dadostimes_api3.db'),
       version: 1,
       onCreate: (db, versao) async {
         await db.execute(times);

@@ -11,7 +11,8 @@ initConfigurations() async {
   // Firebase
   await Firebase.initializeApp();
   // Para executar o Firebase no Emulador Local do Firebase descomentar a seguir
-  // FirebaseFirestore.instance.settings = Settings(host: 'localhost:8080', sslEnabled: false);
+  // FirebaseFirestore.instance.settings =
+  //   Settings(host: 'localhost:8080', sslEnabled: false);
 
   // GetX Bindings
   Get.lazyPut<ThemeController>(() => ThemeController());

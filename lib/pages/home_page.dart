@@ -16,6 +16,45 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var controller = ThemeController.to;
 
+  showEscolherTime() {
+    Get.back();
+
+    final times = Provider.of<TimesRepository>(context, listen: false).times;
+    List<SimpleDialogOption> items = [];
+
+    times.forEach((time) {
+      items.add(
+        SimpleDialogOption(
+          child: Row(
+            children: [
+              Brasao(
+                image: time.brasao,
+                width: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: Text(time.nome),
+              ),
+            ],
+          ),
+          onPressed: () {
+            Get.find<AuthService>().definirTime(time);
+            Get.back();
+          },
+        ),
+      );
+    });
+
+    final SimpleDialog dialog = SimpleDialog(
+      title: Text('Escolha sua torcida'),
+      children: items,
+      insetPadding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height / 6),
+    );
+
+    showDialog(context: context, builder: (_) => dialog);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +90,13 @@ class _HomePageState extends State<HomePage> {
                   title: Obx(() =>
                       controller.isDark.value ? Text('Light') : Text('Dark')),
                   onTap: () => controller.changeTheme(),
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  leading: Icon(Icons.sports_soccer),
+                  title: Text('Escolher Torcida'),
+                  onTap: () => showEscolherTime(),
                 ),
               ),
               PopupMenuItem(

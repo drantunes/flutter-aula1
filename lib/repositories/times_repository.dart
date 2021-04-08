@@ -228,27 +228,27 @@ class TimesRepository extends ChangeNotifier {
     showLoading(true);
 
     // Codigo Dio
-    var http = Dio();
+    // var http = Dio();
     try {
-      var response = await http.get(
-        'https://api.api-futebol.com.br/v1/campeonatos/10/fases/55',
-        options: Options(headers: {
-          'Authorization': 'Bearer live_48465c36f634da7be9d75067b2eb27'
-        }),
-      );
-
-      // Codigio http
       // var response = await http.get(
-      //   Uri.parse('https://api.api-futebol.com.br/v1/campeonatos/10/fases/55'),
-      //   headers: {
-      //     HttpHeaders.authorizationHeader:
-      //         "Bearer live_xyz"
-      //   },
+      //   'https://api.api-futebol.com.br/v1/campeonatos/10/fases/55',
+      //   options: Options(headers: {
+      //     'Authorization': 'Bearer live_48465c36f634da7be9d75067b2eb27'
+      //   }),
       // );
 
+      // Codigio http
+      var response = await http.get(
+        Uri.parse('https://api.api-futebol.com.br/v1/campeonatos/10/fases/55'),
+        headers: {
+          HttpHeaders.authorizationHeader:
+              "Bearer live_48465c36f634da7be9d75067b2eb27"
+        },
+      );
+
       if (response.statusCode == 200) {
-        //final json = jsonDecode(response.body);
-        final json = response.data;
+        final json = jsonDecode(response.body);
+        // final json = response.data;
         final tabela = json['tabela'];
         final db = await DB.get();
 

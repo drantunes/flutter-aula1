@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aula1/database/db_firestore.dart';
 import 'package:flutter_aula1/pages/edit_titulo_page.dart';
 import 'package:flutter_aula1/repositories/times_repository.dart';
 import 'package:flutter_aula1/services/auth_service.dart';
@@ -17,6 +19,17 @@ class TimePage extends StatefulWidget {
 }
 
 class _TimePageState extends State<TimePage> {
+  FirebaseFirestore db;
+  Stream<DocumentSnapshot> torcedoresSnapshot;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore db = DBFirestore.get();
+    torcedoresSnapshot = db.doc('times/${widget.time.id}').snapshots();
+  }
+
   tituloPage() {
     Get.to(() => AddTituloPage(time: widget.time));
   }
@@ -58,6 +71,15 @@ class _TimePageState extends State<TimePage> {
               Text(
                 'Pontos: ${widget.time.pontos}',
                 style: TextStyle(fontSize: 22),
+              ),
+              StreamBuilder<DocumentSnapshot>(
+                stream: torcedoresSnapshot,
+                builder: (context, snapshot) {
+                  return Text(
+                    'Torcedores: ${snapshot.data['torcedores']}',
+                    style: TextStyle(fontSize: 22),
+                  );
+                },
               ),
             ],
           ),
